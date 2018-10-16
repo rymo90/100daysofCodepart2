@@ -10,7 +10,21 @@
 #include <stdlib.h>
 
 #define COLUMNS 6
+int  COUNT= 0;
+void print_number(int  d ){
+  int i = 0;
+  while (i < COUNT) {
+    if(i%COLUMNS==0){
+      printf("\n");
+      printf("%10d ", d);
+    }else{
+      printf("%10d ", d);
+    }
+    i++;
+  }
 
+
+}
 
 void print_primes(int n){
   // Should print out all prime numbers less than 'n'
@@ -39,7 +53,14 @@ int main(int argc, char *argv[]){
     print_primes(atoi(argv[1]));
   else
     printf("Please state an interger number.\n");
+  for(int i= 0; i < 4; i++){
+    COUNT++;
+    print_number(i);
+  }
+
+  printf("\n");
+
+
+
   return 0;
 }
-
- 
