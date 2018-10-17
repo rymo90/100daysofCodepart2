@@ -2,9 +2,10 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      time: "25",
-      break: "5",
-      length: "25"
+      break: 5,
+      session: 25
+
+
     };
     this.handleMinusClick = this.handleMinusClick.bind(this);
     this.handlePlusClick = this.handlePlusClick.bind(this);
@@ -24,18 +25,18 @@ class App extends React.Component {
   }
   handleMinusSession() {
     this.setState({
-      length: this.state.length - 1
+      session: this.state.session - 1
     });
   }
   handlePlusSession() {
     this.setState({
-      length: this.state.length + 1
+      session: this.state.session + 1
     });
   }
   handleClick() {
     this.setState({
-      break: "5",
-      length: "25"
+      break: 5,
+      session: 25
     });
   }
 
@@ -54,11 +55,10 @@ class App extends React.Component {
           -
         </button>
 
-
-
         <button onClick={this.handlePlusClick} id="break-increment">
           +
         </button>
+        <h4 id="break-length">{this.state.break}</h4>
 
         <div id="session-label">Session Length</div>
 
@@ -70,10 +70,10 @@ class App extends React.Component {
         <button onClick={this.handlePlusSession} id="session-increment">
           +
         </button>
-        <div id="break-length">5</div>
-        <div id="session-length">25</div>
+        <h4 id="session-length">{this.state.session}</h4>
+
         <div id="timer-label">session</div>
-        <div id="time-left">{this.state.time}</div>
+        <div id="time-left">{this.state.session + ":00"} </div>
         <button id="start_stop">start/stop</button>
         <button onClick={this.handleClick} id="reset">
           reset
