@@ -66,15 +66,16 @@ class App extends React.Component {
   }
 
   stopstart() {
-    let check= this.state.on
+
     this.setState({
       on: !this.state.on
-    })
+    });
+    let ceck = this.state.on;
 
-    if (check == true){
+    if (!this.state.on){
       this.start()
     }else{
-      this.stop()
+
     }
 
 
@@ -95,6 +96,7 @@ class App extends React.Component {
     }, 1000);
 
   }
+
 
   render() {
     return (
