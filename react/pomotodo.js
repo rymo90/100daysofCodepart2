@@ -5,7 +5,7 @@ class App extends React.Component {
       break: 5,
       session: 25,
       second: 60,
-      on: false
+      isToggleOn: true
     };
     this.breakminus = this.breakminus.bind(this);
     this.breakplus = this.breakplus.bind(this);
@@ -66,21 +66,21 @@ class App extends React.Component {
   }
 
   stopstart() {
+    console.log(this.state.isToggleOn)
+    this.setState(state => ({
+      isToggleOn: !state.isToggleOn
+    }));
 
-    this.setState({
-      on: !this.state.on
-    });
-    let ceck = this.state.on;
 
-    if (!this.state.on){
-      this.start()
-    }else{
 
-    }
+    this.start();
+
 
 
   }
   start(){
+
+
     const timerID= setInterval(() => {
       let sec= this.state.second
       if(sec == 0){
