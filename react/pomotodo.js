@@ -4,8 +4,8 @@ class App extends React.Component {
     this.state = {
       break: 5,
       session: 25,
-      second: 60,
-      isToggleOn: true
+      second: 0+"0",
+      isToggleOn: false
     };
     this.breakminus = this.breakminus.bind(this);
     this.breakplus = this.breakplus.bind(this);
@@ -62,41 +62,29 @@ class App extends React.Component {
     this.setState({
       break: 5,
       session: 25
+
     });
   }
 
   stopstart() {
-    console.log(this.state.isToggleOn)
     this.setState(state => ({
       isToggleOn: !state.isToggleOn
     }));
 
-
-
-    this.start();
-
-
-
-  }
-  start(){
-
-
-    const timerID= setInterval(() => {
-      let sec= this.state.second
-      if(sec == 0){
+    const timerID = setInterval(() => {
+      let sec = this.state.second;
+      if (sec == 0) {
         this.setState({
-          session: this.state.session -1,
+          session: this.state.session - 1,
           second: 59
-        })
-      }else{
+        });
+      } else {
         this.setState({
-          second: this.state.second -1
-        })
+          second: this.state.second - 1
+        });
       }
     }, 1000);
-
   }
-
 
   render() {
     return (
@@ -126,11 +114,13 @@ class App extends React.Component {
         <h4 id="session-length">{this.state.session}</h4>
 
         <div id="timer-label">session</div>
-        <div id="time-left">{this.state.session + ":" + this.state.second} </div>
+        <div id="time-left">
+          {this.state.session + ":" + this.state.second}{" "}
+        </div>
         <button onClick={this.stopstart} id="start_stop">
           start/stop
         </button>
-        <div>{this.state.on && ("Start")} </div>
+
         <button onClick={this.handleClick} id="reset">
           reset
         </button>
