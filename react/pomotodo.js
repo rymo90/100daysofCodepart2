@@ -4,6 +4,7 @@ class App extends React.Component {
     this.state = {
       break: 5,
       session: 25,
+      minute: 25,
       second: 0,
       isToggleOn: false
     };
@@ -40,10 +41,12 @@ class App extends React.Component {
     if (this.state.session == 1) {
       this.setState({
         session: 1
+
       });
     } else {
       this.setState({
         session: this.state.session - 1
+
       });
     }
   }
@@ -51,43 +54,50 @@ class App extends React.Component {
     if (this.state.session == 60) {
       this.setState({
         session: 60
+
       });
     } else {
       this.setState({
         session: this.state.session + 1
+
       });
     }
   }
   handleClick() {
-    clearInterval(this.timer)
+    clearInterval(this.timer);
     this.setState({
       break: 5,
       session: 25,
-      second:0,
-      isToggleOn: false
 
+      second: 0,
+      isToggleOn: false
     });
   }
 
   stopstart = () => {
     this.setState(state => {
-      if(state.isToggleOn){
-        clearInterval(this.timer)
-
-      }else{
-        const startTime= Date.now()-this.state.second
-        this.timer= setInterval(()=>{
-          this.setState({second:Date.now()-startTime})
-
-                                }, 1000);
+      if (state.isToggleOn) {
+        clearInterval(this.timer);
+      } else {
+        this.timer = setInterval(() => {
+          if (this.state.second == 0) {
+            this.setState({ second: 59, session: this.state.session -1 });
+          } else {
+            this.setState({
+              second: this.state.second - 1
+            });
+          }
+        }, 1000);
       }
-      return {isToggleOn: !state.isToggleOn};
+      return { isToggleOn: !state.isToggleOn };
     });
-
-
+  };
+  componentWillUnmount() {
+    clearInterval(this.timer);
   }
 
   render() {
+
     return (
       <div className="App">
         <h1>Promodor Clock</h1>
@@ -115,9 +125,7 @@ class App extends React.Component {
         <h4 id="session-length">{this.state.session}</h4>
 
         <div id="timer-label">session</div>
-        <div id="time-left">
-          {this.state.session + ":" + this.state.second}
-        </div>
+        <div id="time-left">{this.state.session+ ":" + this.state.second}</div>
         <button onClick={this.stopstart} id="start_stop">
           start/stop
         </button>
