@@ -4,7 +4,6 @@ class App extends React.Component {
     this.state = {
       break: 5,
       session: 25,
-      minute: 25,
       second: 0,
       isToggleOn: false
     };
