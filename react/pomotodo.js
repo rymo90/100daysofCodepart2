@@ -3,9 +3,10 @@ class App extends React.Component {
     super(props);
     this.state = {
       break: 5,
-      session: 25,
+      session: 1,
       second: 0,
-      isToggleOn: false
+      isToggleOn: false,
+      breaktime: false
     };
     this.breakminus = this.breakminus.bind(this);
     this.breakplus = this.breakplus.bind(this);
@@ -15,87 +16,76 @@ class App extends React.Component {
     this.stopstart = this.stopstart.bind(this);
   }
   breakminus() {
-    if (this.state.break == 1) {
-      this.setState({
-        break: 1
-      });
-    } else {
-      this.setState({
-        break: this.state.break - 1
-      });
-    }
+    let brk= this.state.break == 1?
+    this.setState({break:1}):
+    this.setState({break:this.state.break-1})
+
   }
   breakplus() {
-    if (this.state.break == 60) {
-      this.setState({
-        break: 60
-      });
-    } else {
-      this.setState({
-        break: this.state.break + 1
-      });
-    }
+    let brk= this.state.break == 60?
+    this.setState({break:60}):
+    this.setState({break:this.state.break+1})
+
   }
   sessionminus() {
-    if (this.state.session == 1) {
-      this.setState({
-        session: 1
-
-      });
-    } else {
-      this.setState({
-        session: this.state.session - 1
-
-      });
-    }
+    let ses= this.state.session == 1?
+    this.setState({session:1}):
+    this.setState({session:this.state.session-1})
   }
   sessionplus() {
-    if (this.state.session == 60) {
-      this.setState({
-        session: 60
+    let ses= this.state.session == 60?
+        this.setState({session:60}):
+    this.setState({session:this.state.session+1})
 
-      });
-    } else {
-      this.setState({
-        session: this.state.session + 1
-
-      });
-    }
   }
   handleClick() {
     clearInterval(this.timer);
     this.setState({
       break: 5,
       session: 25,
-
       second: 0,
       isToggleOn: false
     });
   }
 
+
   stopstart = () => {
     this.setState(state => {
-      if (state.isToggleOn) {
-        clearInterval(this.timer);
-      } else {
-        this.timer = setInterval(() => {
-          if (this.state.second == 0) {
-            this.setState({ second: 59, session: this.state.session -1 });
-          } else {
-            this.setState({
+      let toggle = state.isToggleOn? clearInterval(this.timer):
+      this.timer = setInterval(() => {
+          let sec = this.state.second == 0 ?
+          this.state.breaktime ?
+              this.setState({second:59,break:this.state.break-1}):
+
+          this.setState({ second: 59, session:this.state.session -1 }):
+          this.setState({
               second: this.state.second - 1
             });
-          }
-        }, 1000);
-      }
+        }, 100);
+
       return { isToggleOn: !state.isToggleOn };
     });
   };
-  componentWillUnmount() {
+  componentWillUnmount(strses) {
+    strses ="Break"
     clearInterval(this.timer);
+    return strses
+  }
+  Break(){
+   this.setState({breaktime:!this.state.breaktime})
   }
 
   render() {
+    let sec = this.state.second
+    let min= this.state.session
+    let strses= "Session"
+    let brk = this.state.break
+
+    min=  min  < 10  ? "0"+min : min
+    sec = sec < 10 ? "0"+ sec: sec
+    let display = min +":"+ sec
+    display = min == "0"+-1 && sec == 59 ?    this.componentWillUnmount(strses): display
+
 
     return (
       <div className="App">
@@ -123,8 +113,8 @@ class App extends React.Component {
         </button>
         <h4 id="session-length">{this.state.session}</h4>
 
-        <div id="timer-label">session</div>
-        <div id="time-left">{this.state.session+ ":" + this.state.second}</div>
+        <div id="timer-label">{strses}</div>
+        <div id="time-left">{display}</div>
         <button onClick={this.stopstart} id="start_stop">
           start/stop
         </button>
