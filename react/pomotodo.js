@@ -2,11 +2,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      break: 5,
+      break: 1,
       session: 1,
       second: 0,
       isToggleOn: false,
-      breaktime: false
+      output: "session"
     };
     this.breakminus = this.breakminus.bind(this);
     this.breakplus = this.breakplus.bind(this);
@@ -44,7 +44,8 @@ class App extends React.Component {
       break: 5,
       session: 25,
       second: 0,
-      isToggleOn: false
+      isToggleOn: false,
+      output:"session"
     });
   }
 
@@ -53,11 +54,10 @@ class App extends React.Component {
     this.setState(state => {
       let toggle = state.isToggleOn? clearInterval(this.timer):
       this.timer = setInterval(() => {
-          let sec = this.state.second == 0 ?
-          this.state.breaktime ?
-              this.setState({second:59,break:this.state.break-1}):
+          this.state.second == 0 ?
 
-          this.setState({ second: 59, session:this.state.session -1 }):
+          this.checkoutput()
+          :
           this.setState({
               second: this.state.second - 1
             });
@@ -65,28 +65,53 @@ class App extends React.Component {
 
       return { isToggleOn: !state.isToggleOn };
     });
+
   };
-  componentWillUnmount(strses) {
-    strses ="Break"
-    clearInterval(this.timer);
-    return strses
-  }
-  Break(){
-   this.setState({breaktime:!this.state.breaktime})
-  }
 
+  checkoutput = () => {
+    this.state.output == "session"?
+      this.setState({
+      second: 59,
+      session: this.state.session-1
+    }):
+    this.setState({
+      second: 59,
+      break: this.state.break -1
+    })
+
+
+
+    this.checkSession()
+    this.checkBreak()
+  };
+  checkSession =() => {
+    let session = this.state.session
+    session = session == -1?
+      this.setState({
+      output:"Break",
+      session:this.state.session
+    }):session
+
+  }
+  checkBreak =() => {
+    let br= this.state.break
+    br= br == -1?
+      this.setState({
+      output: "session",
+      break:this.state.break
+
+    }):br
+
+
+  }
   render() {
-    let sec = this.state.second
-    let min= this.state.session
-    let strses= "Session"
-    let brk = this.state.break
+    let second = this.state.second
+    let output = this.state.output
+    let minute
 
-    min=  min  < 10  ? "0"+min : min
-    sec = sec < 10 ? "0"+ sec: sec
-    let display = min +":"+ sec
-    display = min == "0"+-1 && sec == 59 ?    this.componentWillUnmount(strses): display
-
-
+    second= second < 10? "0"+second: second
+    output == "session" ? minute = this.state.session :minute = this.state.break
+    minute= minute < 10 ? "0"+minute: minute
     return (
       <div className="App">
         <h1>Promodor Clock</h1>
@@ -113,8 +138,8 @@ class App extends React.Component {
         </button>
         <h4 id="session-length">{this.state.session}</h4>
 
-        <div id="timer-label">{strses}</div>
-        <div id="time-left">{display}</div>
+        <div id="timer-label">{output}</div>
+        <div id="time-left">{minute+ ":"+second}</div>
         <button onClick={this.stopstart} id="start_stop">
           start/stop
         </button>
